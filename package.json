@@ -1,7 +1,7 @@
 {
   "name": "lfs-store",
   "version": "0.0.0",
-  "description": "",
+  "description": "Store IPLD blocks in git-lfs",
   "main": "index.js",
   "type": "module",
   "scripts": {
