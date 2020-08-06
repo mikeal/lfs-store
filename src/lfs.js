@@ -1,4 +1,3 @@
-import Block from '@ipld/block/defaults.js'
 import bent from 'bent'
 
 const getBuffer = bent('buffer')
@@ -42,7 +41,7 @@ const create = (Block, url, user, token) => {
       const block = blockMap.get(object.oid)
       if (!object.actions) return [object, block]
       const { href, header } = object.actions.upload
-      const r = await put(href, block.encodeUnsafe(), header)
+      await put(href, block.encodeUnsafe(), header)
       if (object.actions.verify) {
         const { href, header } = object.actions.verify
         const headers = { 'content-type': mime, 'user-agent': userAgent, ...header }
@@ -55,9 +54,10 @@ const create = (Block, url, user, token) => {
     return Promise.all(resp.objects.map(_put))
   }
 
-  const get = async objects => {
+  const download = async objects => {
     const cidMap = new Map()
     objects.forEach(o => {
+      if (!o.oid) o.oid = hex(decode(o.cid.multihash).digest)
       cidMap.set(o.oid, o.cid)
       delete o.cid
     })
@@ -78,18 +78,7 @@ const create = (Block, url, user, token) => {
     return Promise.all(resp.objects.map(_get))
   }
 
-  return { upload, get }
+  return { upload, download }
 }
 
-/*
-const url = 'https://github.com/mikeal/test-lfs.git'
-const { upload, get } = create(Block, url, 'mikeal', process.env.GHTOKEN)
-
-const run = async () => {
-  const block = Block.encoder({hello: 'world', r: Math.random()}, 'dag-cbor')
-  const [ [ object ] ] = await upload([block])
-  object.cid = await block.cid()
-  console.log(await get([object]))
-}
-run()
-*/
+export default create
