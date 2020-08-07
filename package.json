@@ -6,6 +6,8 @@
   "type": "module",
   "scripts": {
     "test": "estest test/test-*.js",
+    "build": "rm -rf dist && npx @mikeal/limbo test/test-*.js",
+    "prepublish": "npm run build",
     "coverage": "c8 --reporter=html estest test/test-*.js && npx st -d coverage -p 8080"
   },
   "keywords": [],
@@ -15,11 +17,34 @@
     "bent": "^7.3.9",
     "@ipld/block": "^6.0.1"
   },
+  "standard": {
+    "ignore": [
+      "dist"
+    ]
+  },
   "devDependencies": {
     "standard": "^14.3.4",
     "estest": "^10.3.0",
     "tempy": "^0.6.0",
     "git-remote-origin-url": "^3.1.0",
     "hundreds": "^0.0.7"
+  },
+  "exports": {
+    ".": {
+      "import": "./src/index.js",
+      "require": "./dist/cjs-node/src/index.cjs"
+    },
+    "./src/index.js": {
+      "import": "./src/index.js",
+      "require": "./dist/cjs-node/src/index.cjs"
+    },
+    "./src/lfs.js": {
+      "import": "./src/lfs.js",
+      "require": "./dist/cjs-node/src/lfs.cjs"
+    }
+  },
+  "browser": {
+    "./src/index.js": "./dist/cjs-browser/src/index.js",
+    "./src/lfs.js": "./dist/cjs-browser/src/lfs.js"
   }
 }
