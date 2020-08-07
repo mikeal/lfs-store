@@ -7,7 +7,7 @@
   "scripts": {
     "test": "estest test/test-*.js",
     "build": "rm -rf dist && npx @mikeal/limbo test/test-*.js",
-    "prepublish": "npm run build",
+    "prepublishOnly": "npm run build",
     "coverage": "c8 --reporter=html estest test/test-*.js && npx st -d coverage -p 8080"
   },
   "keywords": [],
