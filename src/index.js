@@ -46,7 +46,7 @@ const create = async (Block, filepath, url, user, token) => {
       } else {
         buffer = buffer.subarray(l2, l2+cidSize)
       }
-      const cid = new CID(buffer)
+      const cid = CID.from(buffer)
       stored.set(cid.toString(), { size })
       offset += header + cidSize
     }
@@ -63,7 +63,7 @@ const create = async (Block, filepath, url, user, token) => {
     stored.set(key, { size: block.encode().byteLength })
 
     const [[object]] = await upload([block])
-    const b = cid.buffer
+    const b = cid.bytes
     const encoded = [0, object.size, b.byteLength].map(i => varint.encode(i))
     const part = Buffer.concat([...encoded, b])
     await fd.write(part)

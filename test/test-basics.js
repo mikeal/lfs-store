@@ -1,4 +1,4 @@
-import Block from '@ipld/block/defaults.js'
+import Block from '@ipld/block/defaults'
 import main from '../src/index.js'
 import { deepStrictEqual as same } from 'assert'
 import { promises as fs } from 'fs'
