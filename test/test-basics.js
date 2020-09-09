@@ -27,7 +27,7 @@ export default async test => {
 
   test('write twice', async test => {
     const filepath = tmpfile()
-    const { put, get } = await main(Block, filepath, repo, user, token)
+    const { put, get, close } = await main(Block, filepath, repo, user, token)
     await put(fixture)
     _resolve()
     await put(fixture)
@@ -39,15 +39,17 @@ export default async test => {
     const reloaded = await main(Block, filepath, repo, user, token)
     block = await reloaded.get(await fixture.cid())
     same(block.decode(), fixture.decode())
+    await close()
   })
 
   test('write twice no local', async test => {
     await exists
     const filepath = tmpfile()
-    const { put, get } = await main(Block, filepath, repo, user, token)
+    const { put, get, close } = await main(Block, filepath, repo, user, token)
     await put(fixture)
 
     const buffer = await fs.readFile(filepath)
     same(buffer.length, 39)
+    await close()
   })
 }

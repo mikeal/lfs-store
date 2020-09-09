@@ -79,7 +79,8 @@ const create = async (Block, filepath, url, user, token) => {
     const [[, block]] = await download([{ cid, size }])
     return block
   }
-  return { put, get }
+  const close = () => fd.close()
+  return { put, get, close }
 }
 
 export default create
