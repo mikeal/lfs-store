@@ -5,8 +5,9 @@
   "main": "./src/index.js",
   "type": "module",
   "scripts": {
+    "build": "npm_config_yes=true npx ipjs@latest build --tests",
+    "publish": "npm_config_yes=true npx ipjs@latest publish",
     "test": "estest test/test-*.js",
-    "build": "rm -rf dist && npx @mikeal/limbo test/test-*.js",
     "coverage": "c8 --reporter=html estest test/test-*.js && npx st -d coverage -p 8080"
   },
   "keywords": [],
@@ -30,20 +31,10 @@
   },
   "exports": {
     ".": {
-      "import": "./src/index.js",
-      "require": "./dist/cjs-node/src/index.cjs"
+      "import": "./src/index.js"
     },
-    "./src/index.js": {
-      "import": "./src/index.js",
-      "require": "./dist/cjs-node/src/index.cjs"
-    },
-    "./src/lfs.js": {
-      "import": "./src/lfs.js",
-      "require": "./dist/cjs-node/src/lfs.cjs"
+    "./src/lfs": {
+      "import": "./src/lfs.js"
     }
-  },
-  "browser": {
-    "./src/index.js": "./dist/cjs-browser/src/index.js",
-    "./src/lfs.js": "./dist/cjs-browser/src/lfs.js"
   }
 }
