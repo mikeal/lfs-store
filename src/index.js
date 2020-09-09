@@ -80,6 +80,7 @@ const create = async (Block, filepath, url, user, token) => {
     return block
   }
   const close = () => fd.close()
+  process.on('exit', () => close().catch(() => {}))
   return { put, get, close }
 }
 
